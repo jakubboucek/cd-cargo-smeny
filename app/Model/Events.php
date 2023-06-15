@@ -20,6 +20,7 @@ use Traversable;
 class Events implements IteratorAggregate
 {
     private const URL = 'https://script.google.com/macros/s/AKfycbwVNN2SV4BGwvKiV2ZHSzAvKFIEAlodFQ9uvp70l2-ujHnXZuLPXrGWdt9RhD10T4pk/exec';
+    private const CACHE_TTL = '20 minutes';
 
     private Cache $cache;
 
@@ -67,7 +68,7 @@ class Events implements IteratorAggregate
     public function getSourceData(?DateTimeInterface $from = null, ?DateTimeInterface $to = null): array
     {
         return $this->cache->load(['events', $from, $to], function (&$params) use ($from, $to) {
-            $params[Cache::Expire] = '20 minutes';
+            $params[Cache::Expire] = self::CACHE_TTL;
             return $this->loadSourceData($from, $to);
         });
     }

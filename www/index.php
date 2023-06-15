@@ -3,11 +3,13 @@
 declare(strict_types=1);
 
 use App\Entity\Day;
+use App\Entity\DayEvent;
+use App\Model\Events;
 use JakubBoucek\Escape\Escape as E;
 
 require __DIR__ . '/../app/bootstrap.php';
 
-$daysEvents = (new \App\Model\Events())->getDaysEvents();
+$daysEvents = (new Events())->getDaysEvents();
 bdump($daysEvents);
 ?>
 <!DOCTYPE html>
@@ -62,32 +64,46 @@ bdump($daysEvents);
         $rowspan = count($day);
         ?>
         <?php
+        /** @var DayEvent $dayEvent */
         foreach ($day as $i => $dayEvent) :
-
             ?>
             <tr>
                 <?php if (!$i): ?>
-                    <td rowspan="<?= $rowspan ?>" style="text-align: right"><?= $day->getDate()->format(
-                            'D j. n. Y'
-                        ) ?></td>
+                    <td rowspan="<?= $rowspan ?>" style="text-align: right">
+                        <?= $day->getDate()->format('D j. n. Y') ?>
+                    </td>
                 <?php endif; ?>
 
-                <?php if ($dayEvent->isStart()): ?>
-                <td style="font-weight: bold; text-align: right">
-                    <?= $dayEvent->getFrom()->format('H:i') ?>
-                </td>
+                <?php if ($dayEvent->isAllDayEvent()): ?>
+                    <td colspan="2" style="color:gray; text-align: center; cursor: help"
+                        title="Celocenní událost a nebo ještě není stanoven čas">
+                        ~ ~ ~
+                    </td>
+                <?php elseif ($dayEvent->isStart()): ?>
+                    <td style="font-weight: bold; text-align: right">
+                        <?= $dayEvent->getFrom()->format('H:i') ?>
+                    </td>
                 <?php else: ?>
-                <td style="color:gray; text-align: center">
-                    ↑
-                </td>
+                    <?php $hmtlTitle = "Vícedenní událost, která má počátek od "
+                        . $dayEvent->getFrom()->format('d. n. Y')
+                        . " v "
+                        . $dayEvent->getFrom()->format('H:i'); ?>
+                    <td style="color:gray; text-align: center; cursor: help" title="<?= E::html($hmtlTitle) ?>">
+                        ↑
+                    </td>
                 <?php endif; ?>
 
-                <?php if ($dayEvent->isEnd()): ?>
+                <?php if ($dayEvent->isAllDayEvent()): ?>
+                <?php elseif ($dayEvent->isEnd()): ?>
                     <td style="font-weight: bold; text-align: right">
                         <?= $dayEvent->getTo()->format('H:i') ?>
                     </td>
                 <?php else: ?>
-                    <td style="color:gray; text-align: center">
+                    <?php $hmtlTitle = "Vícedenní událost, která má konec až "
+                        . $dayEvent->getTo()->format('d. n. Y')
+                        . " v "
+                        . $dayEvent->getTo()->format('H:i'); ?>
+                    <td style="color:gray; text-align: center; cursor: help" title="<?= E::html($hmtlTitle) ?>">
                         ↓
                     </td>
                 <?php endif; ?>
