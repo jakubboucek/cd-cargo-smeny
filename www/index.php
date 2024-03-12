@@ -23,7 +23,7 @@ bdump($daysEvents);
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
+            margin: 0 1em;
             font-family: Arial, sans-serif;
             flex-direction: column;
         }
