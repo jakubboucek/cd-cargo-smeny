@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Entity\Day;
 use App\Entity\DayEvent;
+use App\Helper\DateHelper;
 use App\Model\Events;
 use JakubBoucek\Escape\Escape as E;
 
@@ -70,7 +71,7 @@ bdump($daysEvents);
             <tr>
                 <?php if (!$i): ?>
                     <td rowspan="<?= $rowspan ?>" style="text-align: right">
-                        <?= $day->getDate()->format('D j. n. Y') ?>
+                        <?= DateHelper::formatCzechDate($day->getDate()) ?>
                     </td>
                 <?php endif; ?>
 
@@ -114,10 +115,10 @@ bdump($daysEvents);
         if (!$rowspan):
             ?>
             <tr>
-                <td style="text-align: right"><?= $day->getDate()->format('D j. n. Y') ?></td>
+                <td style="text-align: right"><?= DateHelper::formatCzechDate($day->getDate()) ?></td>
                 <td colspan="3" style="text-align: center; font-style: italic; color: gray">
                     (volno)
-                    <?php if ($range > 3): ?><span style="color: darkred">*</span> <?php endif; ?></td>
+                </td>
             </tr>
         <?php
         endif;
@@ -127,9 +128,6 @@ bdump($daysEvents);
     </tbody>
 </table>
 
-<p><small><span style="color: darkred">*</span>
-        směny se plánují někdy jen 3 dny dopředu, volno není garantováno.
-    </small></p>
 <p><a href="/calendar.html">Celý kalendář směn</a></p>
 </body>
 </html>
