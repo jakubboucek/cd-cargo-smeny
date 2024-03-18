@@ -1,0 +1,62 @@
+{block content}
+<h1>ČD Cargo směny – Jakub Bouček</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Den</th>
+        <th>Od</th>
+        <th>Do</th>
+        <th>Popis</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {varType Day $day}
+    {foreach $daysEvents as $range => $day}
+        {var $rowspan = count($day)}
+        {varType DayEvent $dayEvent}
+        {foreach $day as $i => $dayEvent}
+            <tr>
+                {if !$i}
+                    <td rowspan="{$rowspan}" class="ta-r">{formatCzechDate($day->getDate())}</td>
+                {/if}
+                {if $dayEvent->isAllDayEvent()}
+                    <td colspan="2" class="help ta-c gray"
+                        title="Celocenní událost a nebo ještě není stanoven čas">
+                        ~ ~ ~
+                    </td>
+
+                {elseif $dayEvent->isStart()}
+                    <td class="bold ta-r">{$dayEvent->getFrom()->format('H:i')}</td>
+
+                {else}
+                {var $hmtlTitle = "Vícedenní událost, která má počátek od " . $dayEvent->getFrom()->format('d. n. Y') . " v " . $dayEvent->getFrom()->format('H:i')}
+                    <td class="help ta-c gray" title="{$hmtlTitle}">↑</td>
+
+                {/if}
+        {if $dayEvent->isAllDayEvent()}
+                {elseif $dayEvent->isEnd()}
+                    <td class="bold ta-r">{$dayEvent->getTo()->format('H:i')}</td>
+                {else}
+                {var $hmtlTitle = "Vícedenní událost, která má konec až " . $dayEvent->getTo()->format('d. n. Y') . " v " . $dayEvent->getTo()->format('H:i')}
+                    <td class="help ta-c gray" title="{$hmtlTitle}">↓</td>
+
+                {/if}
+                <td>{$dayEvent->getTitle()}</td>
+            </tr>
+
+        {/foreach}
+        {if !$rowspan}
+            <tr>
+                <td class="ta-r">{formatCzechDate($day->getDate())}</td>
+                <td colspan="3" class="ta-c italic gray">(volno)</td>
+            </tr>
+
+        {/if}
+
+    {/foreach}
+    </tbody>
+</table>
+
+<p><a n:href="plainCalendar">Celý kalendář směn</a></p>

@@ -8,18 +8,26 @@
         }
     ],
     "require": {
-        "php": "^7.4",
+        "php": "^8.3",
         "jakubboucek/legacy-escape": "^1.9",
-        "nette/caching": "^3.1",
-        "nette/utils": "^3.2",
+        "latte/latte": "^3.0",
+        "nette/application": "^3.2",
+        "nette/bootstrap": "^3.2",
+        "nette/caching": "^3.2",
+        "nette/di": "^3.2",
+        "nette/forms": "^3.2",
+        "nette/robot-loader": "^4.0",
+        "nette/security": "^3.2",
+        "nette/utils": "^4.0",
         "nyholm/psr7": "^1.8",
-        "php-http/discovery": "^1.18",
+        "php-http/curl-client": "^2.3",
+        "php-http/discovery": "^1.19",
         "psr/http-client": "^1.0",
         "psr/http-client-implementation": "*",
         "psr/http-factory-implementation": "*",
-        "redbitcz/debug-mode-enabler": "^4.0",
+        "redbitcz/debug-mode-enabler": "^5.0",
         "symfony/http-client": "^5.4",
-        "tracy/tracy": "^2.9"
+        "tracy/tracy": "^2.10"
     },
     "autoload": {
         "psr-4": {

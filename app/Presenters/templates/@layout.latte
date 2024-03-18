@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width">
+    <title>{ifset title}{include title|stripHtml} | {/ifset}Jakub Bouček - ČD Cargo směny</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0 1rem;
+            font-family: Arial, sans-serif;
+            flex-direction: column;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                font-size: 0.8rem;
+            }
+
+            .nl {
+                display: block;
+            }
+        }
+
+        table {
+            border-collapse: collapse;
+            /*min-width: 300px;*/
+        }
+
+        th, td {
+            padding: .5rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+
+        .ws-n {
+            white-space: nowrap;
+        }
+
+        .ta-r {
+            text-align: right;
+        }
+
+        .ta-c {
+            text-align: center;
+        }
+
+        .help {
+            cursor: help;
+        }
+
+        .gray {
+            color: gray;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+
+{include content}
+
+</body>
+</html>
