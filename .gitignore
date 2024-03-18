@@ -1,3 +1,4 @@
+/.deployment-credentials.php
 /.docker/
 /log/
 /temp/
